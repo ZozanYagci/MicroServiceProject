@@ -1,6 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Polly;
+using System.Data.SqlClient;
+
+
 
 namespace CatalogService.Api.Extensions
 {
