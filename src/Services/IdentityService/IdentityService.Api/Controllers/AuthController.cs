@@ -1,6 +1,5 @@
 ﻿using IdentityService.Api.Application.Models;
 using IdentityService.Api.Application.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityService.Api.Controllers
