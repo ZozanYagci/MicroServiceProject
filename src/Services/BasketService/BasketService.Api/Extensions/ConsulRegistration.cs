@@ -1,9 +1,8 @@
-﻿
-using Consul;
+﻿using Consul;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http.Features;
 
-namespace CatalogService.Api.Extensions
+namespace BasketService.Api.Extensions
 {
     public static class ConsulRegistration
     {
@@ -33,11 +32,11 @@ namespace CatalogService.Api.Extensions
             var uri = new Uri(address);
             var registration = new AgentServiceRegistration()
             {
-                ID = $"CatalogService",
-                Name = "CatalogService",
+                ID = $"BasketService",
+                Name = "BasketService",
                 Address = $"{uri.Host}",
                 Port = uri.Port,
-                Tags = new[] { "Catalog Service", "Catalog" }
+                Tags = new[] { "Basket Service", "Basket" }
             };
 
             logger.LogInformation("Registering with Consul");
@@ -50,6 +49,7 @@ namespace CatalogService.Api.Extensions
                 consulClient.Agent.ServiceDeregister(registration.ID).Wait();
             });
             return app;
+
         }
     }
 }
