@@ -1,19 +1,37 @@
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using WebApp;
+using WebApp.Application.Services;
+using WebApp.Application.Services.Interfaces;
+using WebApp.Utils;
 
-namespace WebApp
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+// Root components
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
+
+// Services
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+builder.Services.AddBlazoredLocalStorage();
+
+builder.Services.AddTransient<IIdentityService, IdentityService>();
+builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+
+builder.Services.AddScoped(sp =>
 {
-    public class Program
-    {
-        public static async Task Main(string[] args)
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("#app");
-            builder.RootComponents.Add<HeadOutlet>("head::after");
+    var clientFactory = sp.GetRequiredService<IHttpClientFactory>();
+    return clientFactory.CreateClient("ApiGatewayHttpClient");
+});
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            await builder.Build().RunAsync();
-        }
-    }
-}
+builder.Services.AddHttpClient("ApiGatewayHttpClient", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5000/");
+});
+
+// Run
+await builder.Build().RunAsync();
