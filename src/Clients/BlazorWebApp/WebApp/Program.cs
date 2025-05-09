@@ -33,7 +33,7 @@ builder.Services.AddScoped(sp =>
 
 builder.Services.AddHttpClient("ApiGatewayHttpClient", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5000/");
+    client.BaseAddress = new Uri("https://localhost:5000/");
 });
 
 // Run

@@ -15,6 +15,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigureConsul(builder.Configuration);
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +39,8 @@ if (app.Environment.IsDevelopment())
 var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
 app.RegisterWithConsul(lifetime);
 //app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

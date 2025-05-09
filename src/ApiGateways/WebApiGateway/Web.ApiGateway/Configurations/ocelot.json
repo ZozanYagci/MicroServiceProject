@@ -6,7 +6,7 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
       "UpstreamPathTemplate": "/catalog/{everything}",
       "DownstreamPathTemplate": "/api/catalog/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https"
       //"DownstreamHostAndPorts": [
       //  {
       //    "Host": "localhost",
@@ -22,7 +22,7 @@
       "UpstreamHttpMethod": [ "Post" ],
       "UpstreamPathTemplate": "/auth",
       "DownstreamPathTemplate": "/api/auth",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https"
       //"DownstreamHostAndPorts": [
       //  {
       //    "Host": "localhost",
@@ -36,11 +36,28 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
       "UpstreamPathTemplate": "/basket/{everything}",
       "DownstreamPathTemplate": "/api/Basket/{everything}",
-      "DownstreamScheme": "http",
-
+      "DownstreamScheme": "https"
+    },
+    {
+      "UseServiceDiscovery": true,
+      "ServiceName": "OrderService",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+      "UpstreamPathTemplate": "/order/{everything}",
+      "DownstreamPathTemplate": "/api/order/{everything}",
+      "DownstreamScheme": "https"
+    },
+    {
+      "UseServiceDiscovery": true,
+      "ServiceName": "PaymentService",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+      "UpstreamPathTemplate": "/payment/{everything}",
+      "DownstreamPathTemplate": "/api/payment/{everything}",
+      "DownstreamScheme": "https"
+    }
+  ],
 
       "GlobalConfiguration": {
-        "BaseUrl": "http://localhost:5000",
+        "BaseUrl": "https://localhost:5000",
         "ServiceDiscoveryProvider": {
           "Host": "localhost",
           "Port": 8500,
@@ -49,5 +66,3 @@
         }
       }
     }
-  ]
-}
