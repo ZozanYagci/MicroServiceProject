@@ -6,7 +6,7 @@ using Web.ApiGateway.Services.Interfaces;
 
 namespace Web.ApiGateway.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")] // ocelot konfigürasyonunda tanımlamıştık
     [ApiController]
     [Authorize]
     public class BasketController : ControllerBase
