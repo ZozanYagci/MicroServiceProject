@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 using WebApp.Extensions;
+using WebApp.Infrastructure;
 
 namespace WebApp.Utils
 {
@@ -10,12 +11,14 @@ namespace WebApp.Utils
         private readonly ILocalStorageService localStorageService;
         private readonly HttpClient client;
         private readonly AuthenticationState anonymous;
+        private readonly AppStateManager appState;
 
-        public AuthStateProvider(ILocalStorageService localStorageService, HttpClient httpClient)
+        public AuthStateProvider(ILocalStorageService localStorageService, HttpClient httpClient, AppStateManager appState)
         {
             this.localStorageService = localStorageService;
             client = httpClient;
             anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            this.appState = appState;
         }
 
         public async override Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -44,13 +47,16 @@ namespace WebApp.Utils
             }, "jwtAuthType"));
 
             var authState = Task.FromResult(new AuthenticationState(cp));
+
             NotifyAuthenticationStateChanged(authState);
+            appState.LoginChanged(null);
         }
 
         public void NotifyUserLogout()
         {
             var authState = Task.FromResult(anonymous);
             NotifyAuthenticationStateChanged(authState);
+            appState.LoginChanged(null);
         }
     }
 }

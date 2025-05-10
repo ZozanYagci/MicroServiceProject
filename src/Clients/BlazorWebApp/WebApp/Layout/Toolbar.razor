@@ -19,8 +19,17 @@ else
     [Inject]
     NavigationManager navigationManager { get; set; }
 
+    [Inject]
+    AppStateManager appState { get; set; }
+
     private int basketItemCount = 0;
     bool isLoggedIn = false;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            appState.StateChanged += async (source, property) => await AppState_StateChanged(source, property);
+    }
 
 
     protected override async Task OnInitializedAsync()
@@ -41,14 +50,35 @@ else
         return count;
     }
 
+    private async Task AppState_StateChanged(ComponentBase source, string property)
+    {
+        if (source == this)
+            return;
+
+        if(property=="increase")
+        {
+            basketItemCount++;
+        }
+        else if(property=="updatebasket")
+        {
+            await calculateItemCount();
+        }
+        else if(property =="login")
+        {
+            await calculateItemCount();
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
 
     private void GoLoginPage()
     {
-        navigationManager.NavigateTo($"login?returnUrl={Uri.EscapeDataString(navigationManager.Uri)}", true);
+        navigationManager.NavigateTo($"login?returnUrl={Uri.EscapeDataString(navigationManager.Uri)}", false);
     }
 
     private void GoLogoutPage()
     {
-        navigationManager.NavigateTo($"logout?returnUrl={Uri.EscapeDataString(navigationManager.Uri)}", true);
+        navigationManager.NavigateTo($"logout?returnUrl={Uri.EscapeDataString(navigationManager.Uri)}", false);
     }
 }

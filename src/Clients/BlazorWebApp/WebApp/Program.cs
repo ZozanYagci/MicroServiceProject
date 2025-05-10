@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using WebApp;
 using WebApp.Application.Services;
 using WebApp.Application.Services.Interfaces;
+using WebApp.Infrastructure;
 using WebApp.Utils;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -23,6 +24,8 @@ builder.Services.AddTransient<ICatalogService, CatalogService>();
 builder.Services.AddTransient<IBasketService, BasketService>();
 
 builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+
+builder.Services.AddSingleton<AppStateManager>();
 
 builder.Services.AddScoped(sp =>
 {
