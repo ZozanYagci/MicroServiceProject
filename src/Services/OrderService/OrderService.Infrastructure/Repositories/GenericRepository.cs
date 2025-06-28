@@ -21,7 +21,7 @@ namespace OrderService.Infrastructure.Repositories
         }
 
         // buradaki metotlarda SaveAsync() işlemi yapılmadı. Bunu UnitOfWork patterni ile gerçekleştireceğiz.
-        public IUnitOfWork UnitOfWork { get; }
+        public IUnitOfWork UnitOfWork => dbContext;
 
         public virtual async Task<T> AddAsync(T entity)
         {
